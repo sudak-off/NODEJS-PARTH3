@@ -57,4 +57,27 @@ router.post(
 	responseMiddleware
 );
 
+router.put(
+	"/:id",
+	updateUserValid,
+	async (req, res, next) => {
+		const { email, password, firstName, lastName, phoneNumber } = req.body;
+		try {
+			const updatedUser = await UserService.update(req.params.id, {
+				email,
+				password,
+				firstName,
+				lastName,
+				phoneNumber,
+			});
+			res.data = updatedUser;
+		} catch (error) {
+			res.err = error;
+		} finally {
+			next();
+		}
+	},
+	responseMiddleware
+);
+
 module.exports = router;

@@ -21,6 +21,12 @@ const createUserValid = async (req, res, next) => {
 
 const updateUserValid = (req, res, next) => {
     // TODO: Implement validatior for user entity during update
+ 	 const errorsMessage = checkValidation({ ...req.body });
+
+    if (errorsMessage.length !== 0) {
+      res.status(400) = true;
+      res.message = errorsMessage;
+    }
 
     next();
 };

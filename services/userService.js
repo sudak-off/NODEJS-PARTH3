@@ -34,6 +34,28 @@ class UserService {
 			throw Error("User with this email is registered");
 		}
 	}
+
+	update(id, user) {
+		const userId = UserRepository.getOne({ id });
+
+		if (!userId) {
+			throw Error("User this id not found");
+		}
+
+		let forUpdate = {};
+
+		for (let param in user) {
+			!!user[param] && (forUpdate[param] = user[param]);
+		}
+
+		const updateUser = UserRepository.update(id, forUpdate);
+
+		if (!updateUser) {
+			throw Error("User don't update");
+		}
+
+		return updateUser;
+	}
 }
 
 module.exports = new UserService();
