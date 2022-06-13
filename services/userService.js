@@ -56,6 +56,14 @@ class UserService {
 
 		return updateUser;
 	}
+
+	delete(id) {
+		const user = UserRepository.delete(id);
+		if (!user.length) {
+			throw Error("User don't found");
+		}
+		return user;
+	}
 }
 
 module.exports = new UserService();

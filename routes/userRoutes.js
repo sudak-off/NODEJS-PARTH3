@@ -80,4 +80,19 @@ router.put(
 	responseMiddleware
 );
 
+router.delete(
+	"/:id",
+	async (req, res, next) => {
+		try {
+			const deletedUser = await UserService.delete(req.params.id);
+			res.data = deletedUser;
+		} catch (error) {
+			res.err = error;
+		} finally {
+			next();
+		}
+	},
+	responseMiddleware
+);
+
 module.exports = router;
