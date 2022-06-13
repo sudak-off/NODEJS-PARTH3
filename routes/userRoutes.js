@@ -40,4 +40,21 @@ router.get(
 	responseMiddleware
 );
 
+router.post(
+	"/",
+	createUserValid,
+	async (req, res, next) => {
+		try {
+			const users = await UserService.create(req.body);
+			res.data = users;
+			next();
+		} catch (error) {
+			res.err = error;
+		} finally {
+			next();
+		}
+	},
+	responseMiddleware
+);
+
 module.exports = router;
