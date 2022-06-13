@@ -40,4 +40,20 @@ router.get(
 	responseMiddleware
 );
 
+router.post(
+	"/",
+	createFighterValid,
+	async (req, res, next) => {
+		try {
+			const fighter = await FighterService.create(req.body);
+			res.data = fighter;
+		} catch (error) {
+			res.err = error;
+		} finally {
+			next();
+		}
+	},
+	responseMiddleware
+);
+
 module.exports = router;

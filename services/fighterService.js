@@ -1,3 +1,4 @@
+const { fighter } = require("../models/fighter");
 const { FighterRepository } = require("../repositories/fighterRepository");
 
 class FighterService {
@@ -13,11 +14,22 @@ class FighterService {
 	}
 
 	search(search) {
-		const item = UserRepository.getOne(search);
+		const item = FighterRepository.getOne(search);
 		if (!item) {
 			return new Error({ message: "Not found fighter" });
 		}
 		return item;
+	}
+
+	create(fighterData) {
+		const newFighter = { ...fighter, ...fighterData };
+		const itemFighter = FighterRepository.create(newFighter);
+
+		if (!itemFighter) {
+			return null;
+		}
+
+		return itemFighter;
 	}
 }
 
