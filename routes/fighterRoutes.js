@@ -56,4 +56,19 @@ router.post(
 	responseMiddleware
 );
 
+router.delete(
+	"/:id",
+	async (req, res, next) => {
+		try {
+			const deleteFighter = await FighterService.delete(req.params.id);
+			res.data = deleteFighter;
+		} catch (error) {
+			res.err = error;
+		} finally {
+			next();
+		}
+	},
+	responseMiddleware
+);
+
 module.exports = router;

@@ -31,6 +31,14 @@ class FighterService {
 
 		return itemFighter;
 	}
+
+	delete(id) {
+		const deleteFighter = FighterRepository.delete(id);
+		if (!deleteFighter) {
+			return null;
+		}
+		return deleteFighter;
+	}
 }
 
 module.exports = new FighterService();
