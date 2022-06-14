@@ -1,7 +1,7 @@
-const { user } = require('../models/user');
+const { user } = require("../models/user");
 
 const createUserValid = async (req, res, next) => {
-    // TODO: Implement validatior for user entity during creation
+	// TODO: Implement validatior for user entity during creation
 
 	let { id, ...aboutUser } = user;
 
@@ -13,22 +13,24 @@ const createUserValid = async (req, res, next) => {
 	const errorsMessage = checkValidation(data);
 
 	if (errorsMessage.length !== 0) {
-		res.status(400) = true;
-		res.message = errorsMessage;
+		// res.status(400) = true;
+		// res.message = errorsMessage;
+		res.status = 400;
+		res.send(errorsMessage);
 	}
-    next();
-}
+	next();
+};
 
 const updateUserValid = (req, res, next) => {
-    // TODO: Implement validatior for user entity during update
- 	 const errorsMessage = checkValidation({ ...req.body });
+	// TODO: Implement validatior for user entity during update
+	const errorsMessage = checkValidation({ ...req.body });
 
-    if (errorsMessage.length !== 0) {
-      res.status(400) = true;
-      res.message = errorsMessage;
-    }
+	if (errorsMessage.length !== 0) {
+		res.status = 400;
+		res.send(errorsMessage);
+	}
 
-    next();
+	next();
 };
 
 const checkToGmail = (gmail) => {
