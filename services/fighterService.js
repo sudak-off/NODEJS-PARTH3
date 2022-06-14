@@ -22,14 +22,17 @@ class FighterService {
 	}
 
 	create(fighterData) {
-		const newFighter = { ...fighter, ...fighterData };
-		const itemFighter = FighterRepository.create(newFighter);
-
-		if (!itemFighter) {
-			return null;
+		const checkNameFighter = FighterRepository.getOne({
+			name: fighterData.name,
+		});
+		if (!checkNameFighter) {
+			const newFighter = { ...fighter, ...fighterData };
+			const itemFighter = FighterRepository.create(newFighter);
+			if (!itemFighter) {
+				return null;
+			}
+			return itemFighter;
 		}
-
-		return itemFighter;
 	}
 
 	delete(id) {
