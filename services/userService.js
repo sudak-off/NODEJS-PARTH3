@@ -64,6 +64,7 @@ class UserService {
 		}
 		return user;
 	}
+	//sudak
 }
 
 module.exports = new UserService();
