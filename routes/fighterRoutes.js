@@ -71,4 +71,25 @@ router.delete(
 	responseMiddleware
 );
 
+router.put(
+	"/:id",
+	async (req, res, next) => {
+		try {
+			const { name, health, power, defense } = req.body;
+			const updatedUser = await FighterService.update(req.params.id, {
+				name,
+				health,
+				power,
+				defense,
+			});
+			res.data = updatedUser;
+		} catch (error) {
+			res.err = error;
+		} finally {
+			next();
+		}
+	},
+	responseMiddleware
+);
+
 module.exports = router;

@@ -42,6 +42,16 @@ class FighterService {
 		}
 		return deleteFighter;
 	}
+
+	update(id, fighter) {
+		const updatedFighter = FighterRepository.update(id, fighter);
+
+		if (!updatedFighter) {
+			return null;
+		}
+
+		return updatedFighter;
+	}
 }
 
 module.exports = new FighterService();
