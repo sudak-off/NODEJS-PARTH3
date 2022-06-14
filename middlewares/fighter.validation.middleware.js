@@ -12,9 +12,11 @@ const createFighterValid = (req, res, next) => {
 
 	const errorsMessage = checkValidationFighter(data);
 
-    if (errorsMessage.length !== 0) {
-		res.status(400) = true;
-		res.message = errorsMessage;
+	if (errorsMessage.length !== 0) {
+		// res.status(400) = true;
+		// res.message = errorsMessage;
+		res.status = 400;
+		res.send(errorsMessage);
 	}
 
 	next();
@@ -25,30 +27,30 @@ const updateFighterValid = (req, res, next) => {
 	next();
 };
 
-const checkPower = (power) =>{
-    if(power < 1 || power > 100){
-        return false
-    }
-    return power
-}
+const checkPower = (power) => {
+	if (power < 1 || power > 100) {
+		return false;
+	}
+	return power;
+};
 
-const checkDefense = (defense) =>{
-    if(defense < 1 || defense > 10){
-        return false
-    }
-    return defense
-}
+const checkDefense = (defense) => {
+	if (defense < 1 || defense > 10) {
+		return false;
+	}
+	return defense;
+};
 
-const checkHealth = (health) =>{
-    if(!health){
-        health = 100
-        return health
-    }
-    if(health >120 || health < 80){
-        return false
-    }
-    return health
-}
+const checkHealth = (health) => {
+	if (!health) {
+		health = 100;
+		return health;
+	}
+	if (health > 120 || health < 80) {
+		return false;
+	}
+	return health;
+};
 
 const checkValidationFighter = (newFighter) => {
 	let error = "";
@@ -62,22 +64,22 @@ const checkValidationFighter = (newFighter) => {
 				break;
 			}
 
-            case "defense": {
+			case "defense": {
 				if (!checkDefense(newFighter[e])) {
 					error = `You must select from 1 to 10  \n`;
 				}
 				break;
-			}  
+			}
 
-            case "health": {
+			case "health": {
 				if (!checkHealth(newFighter[e])) {
 					error = `You must select from 80 to 120  \n`;
 				}
 				break;
-			} 
+			}
 
 			default:
-		} 
+		}
 	});
 
 	return error;
