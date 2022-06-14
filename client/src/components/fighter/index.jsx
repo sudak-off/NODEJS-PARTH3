@@ -17,7 +17,6 @@ export default function Fighter({ fightersList, onFighterSelect, selectedFighter
     const [fighter, setFighter] = useState();
 
     const handleChange = (event) => {
-        debugger;
         setFighter(event.target.value);
         onFighterSelect(event.target.value);
     };

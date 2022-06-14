@@ -6,23 +6,35 @@ import Fighter from '../fighter';
 import { Button } from '@material-ui/core';
 
 import './fight.css'
+import Arena from '../arena';
 
 class Fight extends React.Component {
     state = {
         fighters: [],
         fighter1: null,
-        fighter2: null
+        fighter2: null,
+        fightStarted: false,
+        warning: null,
     };
 
     async componentDidMount() {
         const fighters = await getFighters();
-        if(fighters && !fighters.error) {
+        if (fighters && !fighters.error) {
             this.setState({ fighters });
         }
     }
 
     onFightStart = () => {
-        
+        const { fighter1, fighter2 } = this.state;
+        fighter1 && fighter2
+            ? this.setState({
+                fightStarted: true,
+                warning: null
+            })
+            : this.setState({
+                warning:
+                    "First select the fighters, if the list is empty - create them",
+            });
     }
 
     onCreate = (fighter) => {
@@ -30,16 +42,16 @@ class Fight extends React.Component {
     }
 
     onFighter1Select = (fighter1) => {
-        this.setState({fighter1 });
+        this.setState({ fighter1 });
     }
 
     onFighter2Select = (fighter2) => {
-        this.setState({ fighter2 });
+        this.setState({ fighter2 });
     }
 
     getFighter1List = () => {
         const { fighter2, fighters } = this.state;
-        if(!fighter2) {
+        if (!fighter2) {
             return fighters;
         }
 
@@ -48,7 +60,7 @@ class Fight extends React.Component {
 
     getFighter2List = () => {
         const { fighter1, fighters } = this.state;
-        if(!fighter1) {
+        if (!fighter1) {
             return fighters;
         }
 
@@ -56,18 +68,26 @@ class Fight extends React.Component {
     }
 
     render() {
-        const  { fighter1, fighter2 } = this.state;
+        const { fighter1, fighter2, fightStarted, warning } = this.state;
         return (
-            <div id="wrapper">
-                <NewFighter onCreated={this.onCreate} />
-                <div id="figh-wrapper">
-                    <Fighter selectedFighter={fighter1} onFighterSelect={this.onFighter1Select} fightersList={this.getFighter1List() || []} />
-                    <div className="btn-wrapper">
-                        <Button onClick={this.onFightStart} variant="contained" color="primary">Start Fight</Button>
-                    </div>
-                    <Fighter selectedFighter={fighter2} onFighterSelect={this.onFighter2Select} fightersList={this.getFighter2List() || []} />
-                </div>
-            </div>
+            <>
+                {warning && !fightStarted && (
+                    <div className="preview-warning">{warning}</div>
+                )}
+                {fightStarted ? (
+                    <Arena fighter1={fighter1} fighter2={fighter2} />
+                ) : (
+                    <div id="wrapper">
+                        <NewFighter onCreated={this.onCreate} />
+                        <div id="figh-wrapper">
+                            <Fighter selectedFighter={fighter1} onFighterSelect={this.onFighter1Select} fightersList={this.getFighter1List() || []} />
+                            <div className="btn-wrapper">
+                                <Button onClick={this.onFightStart} variant="contained" color="primary">Start Fight</Button>
+                            </div>
+                            <Fighter selectedFighter={fighter2} onFighterSelect={this.onFighter2Select} fightersList={this.getFighter2List() || []} />
+                        </div>
+                    </div>)}
+            </>
         );
     }
 }
