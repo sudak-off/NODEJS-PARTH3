@@ -81,6 +81,35 @@ class FighterService {
 			name: fighter.name,
 		});
 
+		const checkDefense = FighterRepository.getOne({
+			defense: fighter.defense,
+		});
+
+		const checkpower = FighterRepository.getOne({
+			power: fighter.power,
+		});
+
+		if (!fighter.name) {
+			throw new Error("Add name");
+		}
+
+		// && Number(defense) === defense
+		if (!fighter.defense) {
+			throw new Error("add defense");
+		}
+
+		if (!Number.isFinite(fighter.health)) {
+			throw new Error("add health number");
+		}
+
+		if (!Number.isFinite(fighter.power)) {
+			throw new Error("add power number");
+		}
+
+		if (typeof fighter.defense !== "number") {
+			throw new Error("add defense number");
+		}
+
 		if (!checkNameFighter) {
 			const updatedFighter = FighterRepository.update(id, fighter);
 
@@ -88,6 +117,7 @@ class FighterService {
 				return null;
 			}
 
+			delete updatedFighter.id;
 			return updatedFighter;
 		} else {
 			throw new Error("Fighter with this name is registered");
