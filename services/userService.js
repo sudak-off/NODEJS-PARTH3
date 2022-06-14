@@ -24,14 +24,38 @@ class UserService {
 		const checkEmailAllUsers = UserRepository.getOne({
 			email: userData.email,
 		});
+		const checkPhoneAllUsers = UserRepository.getOne({
+			phoneNumber: userData.phoneNumber,
+		});
+
+		if (!email) {
+			throw new Error("User, add email");
+		}
+
+		if (!phoneNumber) {
+			// throw new Error("User, add phoneNumber");
+			res.status = 400;
+			res.send("User with this email is registered");
+		}
+
 		if (!checkEmailAllUsers) {
+			throw new Error("User with this email is registered");
+		}
+		if (!checkPhoneAllUsers) {
+			throw new Error("User with this mobile phone is registered");
+		}
+
+		if (!checkEmailAllUsers && !checkPhoneAllUsers) {
 			const user = UserRepository.create(userData);
+
 			if (!user) {
 				throw Error("Server error");
 			}
+			delete user.id;
 			return user;
 		} else {
-			throw Error("User with this email is registered");
+			// return res.status(400).send("User with this email is registered");
+			throw new Error("User with this email or mobile phone is registered");
 		}
 	}
 

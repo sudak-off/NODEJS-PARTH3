@@ -25,13 +25,46 @@ class FighterService {
 		const checkNameFighter = FighterRepository.getOne({
 			name: fighterData.name,
 		});
+
+		const checkDefense = FighterRepository.getOne({
+			defense: fighterData.defense,
+		});
+
+		const checkpower = FighterRepository.getOne({
+			power: fighterData.power,
+		});
+
+		if (!fighterData.name) {
+			throw new Error("Add name");
+		}
+
+		// && Number(defense) === defense
+		if (!fighterData.defense) {
+			throw new Error("add defense");
+		}
+
+		if (!Number.isFinite(fighterData.power)) {
+			throw new Error("add power number");
+		}
+
+		if (typeof fighterData.defense !== "number") {
+			throw new Error("add defense number");
+		}
+
+		// if (fighterData.power) {
+		// 	throw new Error("add power number");
+		// }
+
 		if (!checkNameFighter) {
-			const newFighter = { ...fighter, ...fighterData };
-			const itemFighter = FighterRepository.create(newFighter);
+			// const newFighter = { ...fighter, ...fighterData };
+			const itemFighter = FighterRepository.create(fighterData);
 			if (!itemFighter) {
 				return null;
 			}
+			delete fighterData.id;
 			return itemFighter;
+		} else {
+			throw new Error("Fighter with this name is registered");
 		}
 	}
 
@@ -44,13 +77,51 @@ class FighterService {
 	}
 
 	update(id, fighter) {
-		const updatedFighter = FighterRepository.update(id, fighter);
+		const checkNameFighter = FighterRepository.getOne({
+			name: fighter.name,
+		});
 
-		if (!updatedFighter) {
-			return null;
+		const checkDefense = FighterRepository.getOne({
+			defense: fighter.defense,
+		});
+
+		const checkpower = FighterRepository.getOne({
+			power: fighter.power,
+		});
+
+		if (!fighter.name) {
+			throw new Error("Add name");
 		}
 
-		return updatedFighter;
+		// && Number(defense) === defense
+		if (!fighter.defense) {
+			throw new Error("add defense");
+		}
+
+		if (!Number.isFinite(fighter.health)) {
+			throw new Error("add health number");
+		}
+
+		if (!Number.isFinite(fighter.power)) {
+			throw new Error("add power number");
+		}
+
+		if (typeof fighter.defense !== "number") {
+			throw new Error("add defense number");
+		}
+
+		if (!checkNameFighter) {
+			const updatedFighter = FighterRepository.update(id, fighter);
+
+			if (!updatedFighter) {
+				return null;
+			}
+
+			delete updatedFighter.id;
+			return updatedFighter;
+		} else {
+			throw new Error("Fighter with this name is registered");
+		}
 	}
 }
 
